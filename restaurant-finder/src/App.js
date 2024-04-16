@@ -13,12 +13,11 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [searchInput, setSearchInput] = useState("");
-  
+  const [restaurants, setRestaurants] = useState([]);
 
   // Search for restaurant
   async function searchRestaurant() {
     console.log("searching for " + searchInput);
-
 
     // Get restaurants with input postcode
     const postcode = searchInput;
@@ -26,9 +25,13 @@ function App() {
 
     // Using fetch to get data from the API
     try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      console.log(data);
+      const returnedRestaurants = await fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          setRestaurants(data.restaurants);
+        });
+      console.log(restaurants)
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -41,27 +44,34 @@ function App() {
           <FormControl
             placeholder="Enter Postcode: eg. N7 8FB"
             type="input"
-            onKeyDown={event => {
+            onKeyDown={(event) => {
               if (event.key == "Enter") {
                 searchRestaurant();
               }
             }}
-            onChange={event => setSearchInput(event.target.value)}
+            onChange={(event) => setSearchInput(event.target.value)}
           />
-          <Button
-            onClick={searchRestaurant}
-          >
-            Search
-          </Button>
+          <Button onClick={searchRestaurant}>Search</Button>
         </InputGroup>
       </Container>
       <Container>
-        <Row className="mx-2 row row-col-4">
-          <Card>
-            <Card.Body>
-              <Card.Title>RestaurantName</Card.Title>
-            </Card.Body>
-          </Card>
+        <Row xs={2} md={4} className="row row-cols-4">
+          {restaurants.map((restaurant, i) => {
+            return (
+              <Card>
+                <Card.Img src={restaurant.logoUrl} />
+                <Card.Body>
+                  <Card.Title>{restaurant.name}</Card.Title>
+                  <Card.Text>{restaurant.address.firstLine}</Card.Text>
+                  {restaurant.cuisines.map((cuisine, i) => {
+                    return (
+                      <Button className="m-1" size="sm">{cuisine.name}</Button>
+                    )
+                  })}
+                </Card.Body>
+              </Card>
+            );
+          })}
         </Row>
       </Container>
     </div>

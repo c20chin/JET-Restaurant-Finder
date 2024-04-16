@@ -13,22 +13,43 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [searchInput, setSearchInput] = useState("");
+  
+
+  // Search for restaurant
+  async function searchRestaurant() {
+    console.log("searching for " + searchInput);
+
+
+    // Get restaurants with input postcode
+    const postcode = searchInput;
+    const apiUrl = `http://localhost:5000/api/restaurants/${postcode}`;
+
+    // Using fetch to get data from the API
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <div className="App">
       <Container>
-        <InputGroup className="mb-3" size="lg">
+        <InputGroup className="p-5 mb-3" size="lg">
           <FormControl
             placeholder="Enter Postcode: eg. N7 8FB"
             type="input"
-            onChange={() => {
-              console.log("key change");
+            onKeyDown={event => {
+              if (event.key == "Enter") {
+                searchRestaurant();
+              }
             }}
+            onChange={event => setSearchInput(event.target.value)}
           />
           <Button
-            onClick={(event) => {
-              console.log("search btn");
-            }}
+            onClick={searchRestaurant}
           >
             Search
           </Button>

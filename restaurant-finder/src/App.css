@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.card-body-custom {
+  height: 210px; /* Set your desired height here */
+  overflow: hidden; /* Hide overflow content */
+  /* You can also add other styles like padding, etc. */
+}
+
+.container-custom {
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+}

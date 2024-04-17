@@ -30,7 +30,7 @@ function App() {
 
     // Get restaurants with input postcode
     const postcode = searchInput;
-    const apiUrl = `http://localhost:5000/api/restaurants/${postcode}`;
+    const apiUrl = `https://jet-restaurant-finder.onrender.com/api/restaurants/${postcode}`;
 
     // Using fetch to get data from the API
     try {

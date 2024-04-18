@@ -27,7 +27,7 @@ npm run start
 ```
 3. Open another terminal window. Start the React App
 ```bash
-# Navigate to frontend folder
+# Navigate to frontend folder 'restaurant-finder'
 cd restaurant-finder
 
 npm install
@@ -35,6 +35,11 @@ npm install
 npm run start
 ```
 
+## Improvements & Next Steps
+### 1. Performance:
+Enhance data fetching performance by implementing lazy load or pagination if the data load becomes bigger.
+### 2. Error input cases:
+When a user enters inputs which return nothing, eg. non-existing postcode or special characters, the app should alert the user.
 
 
 

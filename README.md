@@ -8,7 +8,7 @@ JET Restaurant Finder is a React app that fetches restaurant details based on th
 
 
 ## Run on my free deployed website (performance may be delayed due to inactive use)
-[https://celebrated-shortbread-42672f.netlify.app/](url)
+[https://celebrated-shortbread-42672f.netlify.app/](https://celebrated-shortbread-42672f.netlify.app/)
 
 ## Run on your local machine
 

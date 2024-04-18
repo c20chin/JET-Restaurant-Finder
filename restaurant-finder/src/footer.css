@@ -1,0 +1,15 @@
+.footer {
+  background-color: #ff8000; /* Just Eat Takeaway orange color */
+  color: #ffffff;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.attribution {
+  font-size: 14px;
+}

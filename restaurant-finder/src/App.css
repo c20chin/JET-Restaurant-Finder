@@ -38,7 +38,7 @@
 }
 
 .card-body-custom {
-  height: 210px; /* Set your desired height here */
+  height: 250px; /* Set your desired height here */
   overflow: hidden; /* Hide overflow content */
   /* You can also add other styles like padding, etc. */
 }

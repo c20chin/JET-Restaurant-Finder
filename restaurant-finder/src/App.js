@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 import {
   Card,
   InputGroup,
@@ -10,11 +11,13 @@ import {
   Image,
   Col,
 } from "react-bootstrap";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Footer from "./footer";
 
 function App() {
   const [searchInput, setSearchInput] = useState("");
   const [restaurants, setRestaurants] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const resultsRef = useRef(null);
 
   useEffect(() => {
@@ -27,6 +30,7 @@ function App() {
   // Search for restaurant
   async function searchRestaurant() {
     console.log("searching for " + searchInput);
+    setIsLoading(true); // Set loading state to true before fetching data
 
     // Get restaurants with input postcode
     const postcode = searchInput;
@@ -39,10 +43,12 @@ function App() {
         .then((data) => {
           console.log(data);
           setRestaurants(data.restaurants);
+          setIsLoading(false);
         });
       console.log(restaurants);
     } catch (error) {
       console.error("Error fetching data:", error);
+      setIsLoading(false);
     }
   }
 
@@ -55,6 +61,10 @@ function App() {
           src={require("./img/JetLogo.png")}
         />
         <h4>Type in your postcode to find your next meal!</h4>
+        <p className="text-secondary">
+          This site uses free server hosting service, performance may be delayed
+          due to inactive use. (Please allow up to 1 min for response.)
+        </p>
       </Container>
       <div>
         <Container>
@@ -71,12 +81,20 @@ function App() {
             />
             <Button onClick={searchRestaurant}>Search</Button>
           </InputGroup>
+          {/* Display loading spinner if isLoading is true */}
+          {isLoading && (
+            <div className="m-5">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </div>
+          )}
         </Container>
-        <Container ref={resultsRef}>
+        <Container className="my-5" ref={resultsRef}>
           <Row xs={2} md={4} className="g-4">
-            {restaurants.map((restaurant, i) => {
+            {restaurants.slice(0, 10).map((restaurant, i) => {
               return (
-                <Col key="i">
+                <Col key="j">
                   <Card height="150pt">
                     <Card.Img
                       variant="top"
@@ -85,8 +103,10 @@ function App() {
                       src={restaurant.logoUrl}
                     />
                     <Card.Body className="card-body-custom">
-                      <Card.Title>{restaurant.name}</Card.Title>
-                      <Card.Text>
+                      <Card.Title className="text-md">
+                        {restaurant.name}
+                      </Card.Title>
+                      <Card.Text className="text-sm">
                         <img width="15px" src={require("./img/star.png")}></img>
                         {restaurant.rating.starRating}
                       </Card.Text>
@@ -95,7 +115,11 @@ function App() {
                       </Card.Text>
                       {restaurant.cuisines.slice(0, 2).map((cuisine, i) => {
                         return (
-                          <Button className="m-1 btn-outline-success" size="sm" disabled>
+                          <Button
+                            className="m-1 btn-outline-success"
+                            size="sm"
+                            disabled
+                          >
                             {cuisine.name}
                           </Button>
                         );
@@ -107,6 +131,7 @@ function App() {
             })}
           </Row>
         </Container>
+        <Footer />
       </div>
     </div>
   );
